@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Live Canvas</title>
+  </head>
+  <body>
+    <noscript>
+      <style>
+        .noscript {
+          outline: 1px solid red;
+          padding: 1em;
+          display: inline-block;
+        }
+        main {
+          display: none;
+        }
+      </style>
+      <div class="noscript">Javascript is required but not supported</div>
+    </noscript>
+    <link rel="stylesheet" href="style.css" />
+    <main>
+      <div class="controls">
+        <input type="number" id="width" />
+        X
+        <input type="number" id="height" />
+        <button onclick="localClearCanvas()">clear</button>
+      </div>
+      <canvas>canvas is required but not supported</canvas>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
