@@ -26,10 +26,17 @@ npm start
 
 2. open the website from mobile device and presentation device.
 
+## Features
+
+- multi-device live update
+- resize canvas
+- clear canvas
+- show content created before joining the room
+
 ## Todo
 
-1. eraser
-2. multi-color pen
-3. deploy on cloud
-4. support multi-room
-5. user permission (writer / reader)
+- eraser
+- multi-color pen
+- deploy on cloud
+- support multi-room
+- user permission (writer / reader)
