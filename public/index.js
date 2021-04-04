@@ -105,6 +105,7 @@ function onData(data) {
 canvas.addEventListener('mousedown', event => {
     isMouseDown = true
     lastPoint = null
+    localDraw(event)
 })
 canvas.addEventListener('mouseup', event => {
     isMouseDown = false
