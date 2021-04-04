@@ -196,10 +196,10 @@ function maxWidth() {
 }
 
 function maxCanvasSize() {
-    canvas.style.width = '100vw'
-    canvas.style.height = '100vh'
+    canvas.style.width = screen.width + 'px'
+    canvas.style.height = screen.height + 'px'
     maxHeight()
-    maxHeight()
+    maxWidth()
     resizeCanvas()
 }
 
