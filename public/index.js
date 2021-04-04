@@ -66,7 +66,6 @@ function sendWsData(data) {
 }
 
 function onData(data) {
-    console.log('data:', data)
     let message = JSON.parse(String(data))
     switch (message.type) {
         case 'point':
@@ -91,7 +90,7 @@ function onData(data) {
             resizeCanvas()
             break
         default:
-            console.log('message:', message)
+            console.log('unknown message:', message)
     }
 }
 
