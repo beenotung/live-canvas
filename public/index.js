@@ -59,10 +59,13 @@ function connect() {
     return ws
 }
 
-function sendWsData(data) {
-    data = JSON.stringify(data)
+function sendWsData(message) {
+    let data = JSON.stringify(message)
     allData.push(data)
     ws.send(data)
+    if (message.type === 'clear') {
+        allData = []
+    }
 }
 
 function onData(data) {

@@ -7,6 +7,8 @@ let server = new HttpServer(app)
 let wss = new WsServer({server})
 
 let allData: Data[] = []
+let width: number | undefined
+let height: number | undefined
 
 wss.on('connection', ws => {
     allData.forEach(data => {
@@ -18,6 +20,21 @@ wss.on('connection', ws => {
             if (peer === ws) return
             peer.send(data)
         })
+        let message = JSON.parse(String(data))
+        switch (message.type) {
+            case 'width':
+                width = message.width
+                break
+            case 'height':
+                height = message.height
+                break
+            case 'clear':
+                allData = []
+                allData.push(JSON.stringify({type: 'clear'}))
+                if (width) allData.push(JSON.stringify({type: 'width', width}))
+                if (height) allData.push(JSON.stringify({type: 'height', height}))
+                break
+        }
     })
 })
 
