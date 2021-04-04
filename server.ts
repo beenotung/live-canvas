@@ -1,6 +1,7 @@
 import express from 'express'
 import {Server as HttpServer} from 'http'
 import {Data, Server as WsServer} from 'ws'
+import os from 'os'
 
 let app = express()
 let server = new HttpServer(app)
@@ -42,5 +43,9 @@ app.use(express.static('public'))
 
 let PORT = +process.env.PORT! || 8100
 server.listen(PORT, () => {
-    console.log(`listening on http://localhost:${PORT}`)
+    Object.entries(os.networkInterfaces()).forEach(([iface, addresses]) =>
+        addresses?.forEach(({address, family}) => {
+            if (family === 'IPv6') return
+            console.log(`listening on http://${address}:${PORT} (${iface})`)
+        }))
 })
