@@ -1,3 +1,4 @@
+let root = document.body.parentElement
 let canvas = document.querySelector('canvas')
 let controls = document.querySelector('.controls')
 let widthInput = document.querySelector('#width')
@@ -24,6 +25,10 @@ function resizeCanvas() {
     canvas.style.width = W + 'px'
     canvas.style.height = H + 'px'
     controls.style.width = W + 'px'
+    if (checkScrolling()) {
+        resizeCanvas()
+        return
+    }
     let rect = canvas.getBoundingClientRect()
     offsetX = rect.x
     offsetY = rect.y
@@ -178,6 +183,39 @@ function localClearCanvas() {
     sendWsData({type: 'clear'})
 }
 
+function maxHeight() {
+    H = root.clientHeight - canvas.offsetTop - 10
+    heightInput.value = H
+    setTimeout(() => sendWsData({type: 'height', height: H}))
+}
+
+function maxWidth() {
+    W = root.clientWidth - 20
+    widthInput.value = W
+    setTimeout(() => sendWsData({type: 'width', width: W}))
+}
+
+function maxCanvasSize() {
+    canvas.style.width = '100vw'
+    canvas.style.height = '100vh'
+    maxHeight()
+    maxHeight()
+    resizeCanvas()
+}
+
 function clearCanvas() {
     context.clearRect(0, 0, W, H)
+}
+
+function checkScrolling() {
+    let changed = false
+    if (root.scrollHeight > root.clientHeight) {
+        changed = true
+        maxHeight(root)
+    }
+    if (root.scrollWidth > root.clientWidth) {
+        changed = true
+        maxWidth(root)
+    }
+    return changed
 }

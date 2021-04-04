@@ -32,6 +32,7 @@ npm start
 - resize canvas
 - clear canvas
 - show content created before joining the room
+- auto-adapt to the smallest screen size across connected devices
 
 ## Todo
 
