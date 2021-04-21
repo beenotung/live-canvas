@@ -17,7 +17,7 @@ let context = canvas.getContext('2d')
 let allData = []
 
 let isReplay = false
-resizeCanvas()
+setTimeout(resizeCanvas)
 
 function resizeCanvas() {
     canvas.width = W / ratio
@@ -26,7 +26,7 @@ function resizeCanvas() {
     canvas.style.height = H + 'px'
     controls.style.width = W + 'px'
     if (checkScrolling()) {
-        resizeCanvas()
+        setTimeout(resizeCanvas)
         return
     }
     let rect = canvas.getBoundingClientRect()
