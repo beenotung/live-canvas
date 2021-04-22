@@ -23,9 +23,14 @@
     <link rel="stylesheet" href="style.css" />
     <main>
       <div class="controls">
-        <input type="number" id="width" />
-        X
-        <input type="number" id="height" />
+        <input type="color" id="color" />
+        <div id="size-inputs">
+          <input type="number" id="width" />
+          X
+          <input type="number" id="height" />
+        </div>
+        <button id="pen">Pen</button>
+        <button id="eraser">Eraser</button>
         <button onclick="localClearCanvas()">clear</button>
         <button onclick="maxCanvasSize()">max</button>
       </div>

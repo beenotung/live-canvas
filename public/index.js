@@ -3,6 +3,9 @@ let canvas = document.querySelector('canvas')
 let controls = document.querySelector('.controls')
 let widthInput = document.querySelector('#width')
 let heightInput = document.querySelector('#height')
+let colorInput = document.querySelector('#color')
+let penButton = document.querySelector('#pen')
+let eraserButton = document.querySelector('#eraser')
 
 // default size should be safe for mobile phone
 let defaultW = 260
@@ -10,6 +13,12 @@ let defaultH = 400
 let W = widthInput.valueAsNumber || ((widthInput.value = defaultW), defaultW)
 let H = heightInput.valueAsNumber || ((heightInput.value = defaultH), defaultH)
 let ratio = 2
+
+let penSize = 1
+let eraserSize = 20
+
+let color = colorInput.value
+let drawSize = penSize
 
 let offsetX = 0
 let offsetY = 0
@@ -77,10 +86,10 @@ function onData(data) {
     let message = JSON.parse(String(data))
     switch (message.type) {
         case 'point':
-            drawPoint(message.x, message.y)
+            drawPoint(message)
             break
         case 'line':
-            drawLine(message.from, message.to)
+            drawLine(message)
             break
         case 'clear':
             clearCanvas()
@@ -151,28 +160,51 @@ heightInput.addEventListener('change', event => {
     sendWsData({type: 'height', height: H})
 })
 
+colorInput.addEventListener('change', () => {
+    color = colorInput.value
+})
+
+penButton.addEventListener('click', () => {
+    penButton.style.display = 'none'
+    eraserButton.style.display = 'initial'
+    colorInput.style.display = 'initial'
+    color = colorInput.value
+    drawSize = penSize
+})
+eraserButton.addEventListener('click', () => {
+    eraserButton.style.display = 'none'
+    colorInput.style.display = 'none'
+    penButton.style.display = 'initial'
+    color = 'lightskyblue'
+    drawSize = eraserSize
+})
+penButton.style.display = 'none'
+
+
 function localDraw(event) {
     let x = (event.clientX - offsetX) / ratio
     let y = (event.clientY - offsetY) / ratio
     if (lastPoint) {
         let newPoint = {x, y}
-        drawLine(lastPoint, newPoint)
-        sendWsData({type: 'line', from: lastPoint, to: newPoint})
+        drawLine({from: lastPoint, to: newPoint, color, drawSize})
+        sendWsData({type: 'line', from: lastPoint, to: newPoint, color, drawSize})
         lastPoint = newPoint
     } else {
-        drawPoint(x, y)
-        sendWsData({type: 'point', x, y})
+        drawPoint({x, y, color, drawSize})
+        sendWsData({type: 'point', x, y, color, drawSize})
         lastPoint = {x, y}
     }
 }
 
-function drawPoint(x, y) {
-    context.fillStyle = 'black'
-    context.fillRect(x, y, 1, 1)
+function drawPoint({x, y, color, drawSize}) {
+    context.fillStyle = color
+    let r = drawSize / 2
+    context.fillRect(x - r, y - r, r * 2, r * 2)
 }
 
-function drawLine(from, to) {
-    context.strokeStyle = 'black'
+function drawLine({from, to, color, drawSize}) {
+    context.strokeStyle = color
+    context.lineWidth = drawSize
     context.beginPath()
     context.moveTo(from.x, from.y)
     context.lineTo(to.x, to.y)
