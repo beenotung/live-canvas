@@ -33,11 +33,11 @@ npm start
 - clear canvas
 - show content created before joining the room
 - auto-adapt to the smallest screen size across connected devices
+- eraser
+- custom pen color
 
 ## Todo
 
-- eraser
-- multi-color pen
 - deploy on cloud
 - support multi-room
 - user permission (writer / reader)
